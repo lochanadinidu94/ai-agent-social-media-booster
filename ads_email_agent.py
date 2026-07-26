@@ -71,7 +71,7 @@ def main():
                 ADS_SYSTEM,
                 f"CLIENT BRIEF:\n{brief}\n\nCreate the paid ads kit now. "
                 "Ensure all keywords are relevant and budgets are realistic.",
-                max_tokens=12000,
+                max_tokens=4000,
             )
             save("ads_kit.md", ads)
 
@@ -82,7 +82,7 @@ def main():
                 EMAIL_SYSTEM,
                 f"CLIENT BRIEF:\n{brief}\n\nWrite the 5-email sequence now. "
                 "Make sure each email has clear value and calls-to-action.",
-                max_tokens=12000,
+                max_tokens=4000,
             )
             save("email_sequence.md", emails)
 

@@ -42,3 +42,12 @@ logs/
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Local environment
+.env
+
+# Local debug and installer files
+python-3.12.6-amd64.exe
+Git-2.42.0-64-bit.exe
+tmp_anthropic_debug.py
+tmp_anthropic_raw.py

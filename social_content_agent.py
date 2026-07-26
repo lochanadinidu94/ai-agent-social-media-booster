@@ -74,7 +74,7 @@ def main():
             f"CLIENT BRIEF:\n{brief}\n\nPlatforms: {', '.join(platforms)}.\n"
             "Create the 30-day content calendar now. Ensure it's specific, on-brand, "
             "and ready to post.",
-            max_tokens=16000,
+            max_tokens=4000,
         )
         save("social_calendar.md", calendar)
         print("\n✅ Calendar ready for review!")

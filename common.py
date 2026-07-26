@@ -13,11 +13,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Configuration
-MODEL = os.environ.get("AGENT_MODEL", "claude-3-5-sonnet-20241022")
+MODEL = os.environ.get("AGENT_MODEL", "claude-opus-5")
 OUTPUT_DIR = Path("deliverables")
 LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO")
 MAX_RETRIES = int(os.environ.get("MAX_RETRIES", "3"))
-REQUEST_TIMEOUT = int(os.environ.get("REQUEST_TIMEOUT", "30"))
+REQUEST_TIMEOUT = int(os.environ.get("REQUEST_TIMEOUT", "120"))
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -103,7 +103,18 @@ def ask_claude(
                 messages=[{"role": "user", "content": user}],
             )
             
-            response_text = "".join(b.text for b in msg.content if b.type == "text")
+            response_parts = []
+            for b in msg.content:
+                btype = getattr(b, "type", None)
+                if btype == "text":
+                    response_parts.append(getattr(b, "text", "") or "")
+                elif btype == "thinking":
+                    response_parts.append(getattr(b, "thinking", "") or "")
+                else:
+                    response_parts.append(getattr(b, "text", "") or getattr(b, "thinking", "") or "")
+            response_text = "".join(response_parts).strip()
+            if not response_text:
+                logger.warning(f"Empty API response text; raw content: {msg.content!r}")
             logger.info(
                 f"✓ API call successful - {msg.usage.input_tokens} input, "
                 f"{msg.usage.output_tokens} output tokens"

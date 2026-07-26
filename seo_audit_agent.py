@@ -96,7 +96,8 @@ def crawl_page(url: str) -> Dict[str, Any]:
             "has_viewport": bool(viewport),
             "has_schema": has_schema,
             "content_sample": text[:1500],
-            "internal_links": len(internal_links),
+            "internal_links": list(internal_links),
+            "internal_links_count": len(internal_links),
         }
         
         logger.info(f"✓ Crawled: {url} ({r.status_code}, {page_data['word_count']} words)")
@@ -185,7 +186,7 @@ def main():
             client,
             SYSTEM,
             f"CLIENT BRIEF:\n{brief}\n\nCRAWL DATA ({len(pages)} pages):\n{pages}",
-            max_tokens=16000,
+            max_tokens=4000,
         )
         save("seo_audit.md", audit)
         print("\n✅ Audit complete!")
